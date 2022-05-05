@@ -1,0 +1,31 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: borde;
+}
+
+body {
+  background-color: azure;
+  margin: auto;
+}
+
+section {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  margin-bottom: 1rem;
+}
+
+#button {
+  background-color: rgb(103, 103, 103);
+  color: white;
+  border-radius: 5px;
+  border: 2px solid #555555;
+  font-size: 1.5rem;
+  padding: 0.5rem 1rem;
+}
