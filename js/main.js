@@ -1,8 +1,12 @@
-"use strict";
+("use strict");
+
+const button = document.querySelector("button");
+
 const getWeather = async (position) => {
   const { latitude, longitude } = position.coords;
 
-  const key = "";
+  const key = "e4bcc9331cb23fccb8f2334e39b3b0a4";
+
   try {
     const res = await fetch(
       `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,daily&appid=${key}`
@@ -17,4 +21,6 @@ const getWeather = async (position) => {
   }
 };
 
-navigator.geolocation.getCurrentPosition(getWeather);
+button.addEventListener("click", (event) => {
+  navigator.geolocation.getCurrentPosition(getWeather);
+});
