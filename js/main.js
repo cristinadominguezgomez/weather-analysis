@@ -3,18 +3,55 @@
 const button = document.querySelector("button");
 const app = document.querySelector("section.app");
 
+const getWeatherIconUrl = (weather) => {
+  let iconUrl = "";
+
+  switch (weather) {
+    case "Thunderstorm":
+      iconUrl = "icons/thunder.svg";
+      break;
+    case "Drizzle":
+      iconUrl = "icons/rainy-2.svg";
+      break;
+    case "Rain":
+      iconUrl = "icons/rainy-7.svg";
+      break;
+    case "Snow":
+      iconUrl = "icons/snowy-6.svg";
+      break;
+    case "Clear":
+      iconUrl = "icons/day.svg";
+      break;
+    case "Atmosphere":
+      iconUrl = "icons/weather.svg";
+      break;
+    case "Clouds":
+      iconUrl = "icons/cloudy-day-1.svg";
+      break;
+    default:
+      iconUrl = "icons/cloudy-day-1.svg";
+  }
+
+  return iconUrl;
+};
+
 const writeWeather = (infoWeather8H) => {
   const weatherList = infoWeather8H.map((weather) => {
+    const iconUrl = getWeatherIconUrl(weather);
     return `
-    <li><p>${weather}</p></li>`;
+    <li>
+     <img src=${iconUrl}></img>
+     <span>${weather}</span>
+    </li>`;
   });
+
   app.innerHTML = `<ul>${weatherList.join("")}</ul>`;
 };
 
 const getWeather = async (position) => {
   const { latitude, longitude } = position.coords;
 
-  const key = "d9f14e26f715ebe1628279e5d2a1f5c6";
+  const key = "";
 
   try {
     const res = await fetch(
@@ -27,8 +64,15 @@ const getWeather = async (position) => {
         return hour.weather[0].main;
       });
       const infoWeather8H = infoWeather.slice(0, 8);
-
       writeWeather(infoWeather8H);
+
+      const willRain = infoWeather8H.some((elem) => elem === "Rain");
+
+      if (willRain) {
+        app.innerHTML += `<p>Llovera en las proximas 8 hrs</p>`;
+      } else {
+        app.innerHTML += `<p>No lloverá en las proximas 8 hrs</p>`;
+      }
     } else {
       console.log("Hubo un error en la petición");
     }
