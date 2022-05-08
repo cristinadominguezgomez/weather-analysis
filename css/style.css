@@ -5,26 +5,43 @@
 }
 
 body {
-  background-color: azure;
-  margin: auto;
   font-family: sans-serif;
+  margin: 5rem;
+  height: 100vh;
+  background-image: url("../images/clima1.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-section.app {
+body header {
   display: flex;
+  align-items: center;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
-section.app h1 {
-  margin-bottom: 1rem;
+header h1 {
+  margin-bottom: 2rem;
+  color: white;
 }
 
-section.app ul {
+main section.app ul {
+  justify-content: center;
   list-style: none;
   display: flex;
   text-align: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+main section.app ul li {
+  box-shadow: #2196f3 0px 0px 5px 1.5px;
+  border: transparent;
+  background-color: azure;
+  padding: 1rem;
+  width: 10rem;
+  height: 12rem;
 }
 
 section.result p {
@@ -33,10 +50,16 @@ section.result p {
 }
 
 #button {
-  background-color: rgb(103, 103, 103);
-  color: white;
-  border-radius: 5px;
-  border: 2px solid #555555;
-  font-size: 1.5rem;
-  padding: 0.5rem 1rem;
+  padding: .375rem .75rem;
+  border: 1px solid #007bff;
+  border-radius: .25rem;
+  color: #007bff;
+  transition: color .15s ease-in-out,
+    background-color .15s ease-in-out;
 }
+
+#button:hover, #button:active, #button:focus {
+  color: #fff;
+  background-color: #007bff;
+}
+

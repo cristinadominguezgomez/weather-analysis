@@ -63,7 +63,7 @@ const writeWeather = (results) => {
 const getWeather = async (position) => {
   const { latitude, longitude } = position.coords;
 
-  const key = "d9f14e26f715ebe1628279e5d2a1f5c6";
+  const key = "e4bcc9331cb23fccb8f2334e39b3b0a4";
 
   try {
     const res = await fetch(
