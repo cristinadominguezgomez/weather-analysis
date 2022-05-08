@@ -2,6 +2,7 @@
 
 const button = document.querySelector("button");
 const app = document.querySelector("section.app");
+const result = document.querySelector("section.result");
 
 const getWeatherIconUrl = (weather) => {
   let iconUrl = "";
@@ -35,13 +36,24 @@ const getWeatherIconUrl = (weather) => {
   return iconUrl;
 };
 
-const writeWeather = (infoWeather8H) => {
-  const weatherList = infoWeather8H.map((weather) => {
+const writeWeather = (results) => {
+  const weatherList = results.map((hour) => {
+    const { humidity, temp, weather, dt } = hour;
+
+    const d = new Date(0);
+    d.setUTCSeconds(dt);
+
     const iconUrl = getWeatherIconUrl(weather);
+
     return `
     <li>
-     <img src=${iconUrl}></img>
-     <span>${weather}</span>
+    <h3>${weather[0].main}</h3>
+    <h4>${weather[0].description}</h4>
+    <p>Hora:${d.getHours()}:00</p>
+    <img src=${iconUrl}></img>
+    <p>Temp:${(temp - 273.15).toFixed(0)}</p>
+    <p>Humedad:${humidity}</p>
+
     </li>`;
   });
 
@@ -51,7 +63,7 @@ const writeWeather = (infoWeather8H) => {
 const getWeather = async (position) => {
   const { latitude, longitude } = position.coords;
 
-  const key = "";
+  const key = "d9f14e26f715ebe1628279e5d2a1f5c6";
 
   try {
     const res = await fetch(
@@ -60,19 +72,27 @@ const getWeather = async (position) => {
     if (res.ok) {
       const { hourly } = await res.json();
 
-      const infoWeather = hourly.map((hour) => {
-        return hour.weather[0].main;
-      });
-      const infoWeather8H = infoWeather.slice(0, 8);
-      writeWeather(infoWeather8H);
+      const results = hourly
+        .map((hour) => {
+          return hour;
+        })
+        .slice(0, 8);
 
-      const willRain = infoWeather8H.some((elem) => elem === "Rain");
+      const willRain = results
+        .map((hour) => {
+          return hour.weather[0].main;
+        })
+        .some((elem) => {
+          elem === "Rain";
+        });
 
       if (willRain) {
-        app.innerHTML += `<p>Llovera en las proximas 8 hrs</p>`;
+        result.innerHTML = `<p>Llovera en las proximas 8 hrs</p>`;
       } else {
-        app.innerHTML += `<p>No lloverá en las proximas 8 hrs</p>`;
+        result.innerHTML = `<p>No lloverá en las proximas 8 hrs</p>`;
       }
+
+      writeWeather(results);
     } else {
       console.log("Hubo un error en la petición");
     }

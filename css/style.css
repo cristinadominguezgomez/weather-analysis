@@ -7,18 +7,29 @@
 body {
   background-color: azure;
   margin: auto;
+  font-family: sans-serif;
 }
 
-section {
-  min-height: 100vh;
+section.app {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-h1 {
+section.app h1 {
   margin-bottom: 1rem;
+}
+
+section.app ul {
+  list-style: none;
+  display: flex;
+  text-align: center;
+}
+
+section.result p {
+  padding: 1rem;
+  text-align: center;
 }
 
 #button {
