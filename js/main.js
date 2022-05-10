@@ -59,11 +59,10 @@ const writeWeather = (results) => {
     <li>
     <h3>${timeDictionary[weather[0].main]}</h3>
     <h4>${weather[0].description}</h4>
-    <p>Hora:${d.getHours()}:00</p>
+    <p>Hora: ${d.getHours()}:00</p>
     <img src=${iconUrl}></img>
-    <p>Temp:${(temp - 273.15).toFixed(0)}</p>
-    <p>Humedad:${humidity}</p>
-
+    <p>Temp: ${(temp - 273.15).toFixed(0)}°C</p>
+    <p>Humedad: ${humidity}%</p>
     </li>`;
   });
 
@@ -71,14 +70,8 @@ const writeWeather = (results) => {
 };
 
 const getWeather = async (position) => {
-  let { latitude, longitude } = position.coords;
-  console.log(latitude, longitude);
-  // latitude = 51.5072;
-  // longitude = 0.1276;
-  latitude = 40.5072;
-  longitude = 2.1276;
-
-  const key = "e4bcc9331cb23fccb8f2334e39b3b0a4";
+  const { latitude, longitude } = position.coords;
+  const key = "";
 
   try {
     const res = await fetch(
@@ -88,21 +81,20 @@ const getWeather = async (position) => {
       const { hourly } = await res.json();
 
       const results = hourly.slice(0, 8);
-      console.log(results);
 
       const willRain = results.some((elem) => {
         return elem.weather[0].main === "Rain";
       });
 
-      console.log(willRain);
 
       if (willRain) {
-        console.log(willRain);
         result.innerHTML = `<p>Lloverá en las próximas 8 hrs</p>`;
         body.style.backgroundImage = "url('../images/rain.jpg')";
+        button.style.backgroundColor = "#0b1928";
       } else {
         result.innerHTML = `<p>No lloverá en las próximas 8 hrs</p>`;
         body.style.backgroundImage = "url('../images/clear.jpg')";
+        button.style.backgroundColor = "#7f9dd2";
       }
 
       writeWeather(results);
@@ -124,6 +116,7 @@ const onGeolocationError = () => {
 const clickHandler = () => {
   navigator.geolocation.getCurrentPosition(getWeather, onGeolocationError);
   button.textContent = "Volver";
+
   button.removeEventListener("click", clickHandler);
   button.addEventListener("click", () => {
     window.location.reload();
