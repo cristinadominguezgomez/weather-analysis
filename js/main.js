@@ -3,6 +3,17 @@
 const button = document.querySelector("button");
 const app = document.querySelector("section.app");
 const result = document.querySelector("section.result");
+const body = document.querySelector("body");
+
+const timeDictionary = {
+  Thunderstorm: "Tormenta",
+  Drizzle: "Llovizna",
+  Rain: "Lluvia",
+  Snow: "Nieve",
+  Clear: "Despejado",
+  Atmosphere: "Ventoso",
+  Clouds: "Nubes",
+};
 
 const getWeatherIconUrl = (weather) => {
   let iconUrl = "";
@@ -40,14 +51,13 @@ const writeWeather = (results) => {
   const weatherList = results.map((hour) => {
     const { humidity, temp, weather, dt } = hour;
 
-    const d = new Date(0);
-    d.setUTCSeconds(dt);
+    const d = new Date(dt * 1000);
 
     const iconUrl = getWeatherIconUrl(weather);
 
     return `
     <li>
-    <h3>${weather[0].main}</h3>
+    <h3>${timeDictionary[weather[0].main]}</h3>
     <h4>${weather[0].description}</h4>
     <p>Hora:${d.getHours()}:00</p>
     <img src=${iconUrl}></img>
@@ -61,35 +71,38 @@ const writeWeather = (results) => {
 };
 
 const getWeather = async (position) => {
-  const { latitude, longitude } = position.coords;
+  let { latitude, longitude } = position.coords;
+  console.log(latitude, longitude);
+  // latitude = 51.5072;
+  // longitude = 0.1276;
+  latitude = 40.5072;
+  longitude = 2.1276;
 
   const key = "e4bcc9331cb23fccb8f2334e39b3b0a4";
 
   try {
     const res = await fetch(
-      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,daily,current,alerts&appid=${key}`
+      `https://api.openweathermap.org/data/2.5/onecall?lat=${latitude}&lon=${longitude}&exclude=minutely,daily,current,alerts&appid=${key}&lang=es`
     );
     if (res.ok) {
       const { hourly } = await res.json();
 
-      const results = hourly
-        .map((hour) => {
-          return hour;
-        })
-        .slice(0, 8);
+      const results = hourly.slice(0, 8);
+      console.log(results);
 
-      const willRain = results
-        .map((hour) => {
-          return hour.weather[0].main;
-        })
-        .some((elem) => {
-          elem === "Rain";
-        });
+      const willRain = results.some((elem) => {
+        return elem.weather[0].main === "Rain";
+      });
+
+      console.log(willRain);
 
       if (willRain) {
-        result.innerHTML = `<p>Llovera en las proximas 8 hrs</p>`;
+        console.log(willRain);
+        result.innerHTML = `<p>Lloverá en las próximas 8 hrs</p>`;
+        body.style.backgroundImage = "url('../images/rain.jpg')";
       } else {
-        result.innerHTML = `<p>No lloverá en las proximas 8 hrs</p>`;
+        result.innerHTML = `<p>No lloverá en las próximas 8 hrs</p>`;
+        body.style.backgroundImage = "url('../images/clear.jpg')";
       }
 
       writeWeather(results);
@@ -101,6 +114,20 @@ const getWeather = async (position) => {
   }
 };
 
-button.addEventListener("click", () => {
-  navigator.geolocation.getCurrentPosition(getWeather);
-});
+const onGeolocationError = () => {
+  const header = document.querySelector("header");
+  const div = document.createElement("div");
+  header.append(div);
+  div.textContent = "Acceso a la ubicación rechazado. Revisa tu cortafuegos";
+};
+
+const clickHandler = () => {
+  navigator.geolocation.getCurrentPosition(getWeather, onGeolocationError);
+  button.textContent = "Volver";
+  button.removeEventListener("click", clickHandler);
+  button.addEventListener("click", () => {
+    window.location.reload();
+  });
+};
+
+button.addEventListener("click", clickHandler);
