@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2? family= Roboto:wght@300;400 & display=swap");
+
 * {
   margin: 0;
   padding: 0;
@@ -5,10 +7,10 @@
 }
 
 body {
-  font-family: sans-serif;
+  font-family: "Roboto", sans-serif;
   margin: 5rem;
-  height: 100vh;
-  background-image: url("../images/clima1.png");
+  min-height: 100vh;
+  background-image: url("../images/weather.webp");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -20,9 +22,21 @@ body header {
   justify-content: center;
 }
 
+body header div {
+  margin-top: 5rem;
+  color: rgb(216, 235, 47);
+  font-size: 1.5rem;
+}
+
 header h1 {
-  margin-bottom: 2rem;
+  padding: 5rem 0;
+  font-size: 3rem;
   color: white;
+  text-align: center;
+}
+
+main {
+  max-width: 100%;
 }
 
 main section.app ul {
@@ -32,34 +46,55 @@ main section.app ul {
   text-align: center;
   flex-wrap: wrap;
   gap: 2rem;
-  margin-top: 2rem;
 }
 
 main section.app ul li {
   box-shadow: #2196f3 0px 0px 5px 1.5px;
   border: transparent;
+  border-radius: 0.25rem;
   background-color: azure;
   padding: 1rem;
   width: 10rem;
-  height: 12rem;
+  height: 17rem;
+}
+
+main section.app ul li h4 {
+  padding: 0.5rem 0;
+}
+
+main section.app ul li img {
+  width: 7rem;
+}
+main section.app ul li p {
+  padding-bottom: 0.3rem;
+}
+
+section.result {
+  padding: 5rem;
+  /* height: 10rem; */
 }
 
 section.result p {
   padding: 1rem;
   text-align: center;
+  color: white;
+  font-size: 2rem;
 }
 
 #button {
-  padding: .375rem .75rem;
+  padding: 0.5rem;
+  font-size: 2rem;
+  width: 10rem;
   border: 1px solid #007bff;
-  border-radius: .25rem;
+  border-radius: 0.25rem;
   color: #007bff;
-  transition: color .15s ease-in-out,
-    background-color .15s ease-in-out;
+  transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out;
+  cursor: pointer;
 }
 
-#button:hover, #button:active, #button:focus {
+#button:hover,
+#button:active,
+#button:focus {
   color: #fff;
   background-color: #007bff;
 }
-
