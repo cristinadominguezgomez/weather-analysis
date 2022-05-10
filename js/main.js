@@ -71,7 +71,7 @@ const writeWeather = (results) => {
 
 const getWeather = async (position) => {
   const { latitude, longitude } = position.coords;
-  const key = "";
+  const key = "d9f14e26f715ebe1628279e5d2a1f5c6";
 
   try {
     const res = await fetch(
@@ -85,7 +85,6 @@ const getWeather = async (position) => {
       const willRain = results.some((elem) => {
         return elem.weather[0].main === "Rain";
       });
-
 
       if (willRain) {
         result.innerHTML = `<p>Lloverá en las próximas 8 hrs</p>`;
