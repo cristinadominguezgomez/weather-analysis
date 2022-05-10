@@ -109,7 +109,7 @@ const onGeolocationError = () => {
   const header = document.querySelector("header");
   const div = document.createElement("div");
   header.append(div);
-  div.textContent = "Acceso a la ubicación rechazado. Revisa tu cortafuegos";
+  div.textContent = "Acceso a la ubicación rechazado.Revisa tu cortafuegos";
 };
 
 const clickHandler = () => {

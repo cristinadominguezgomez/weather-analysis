@@ -23,8 +23,9 @@ body header {
 
 body header div {
   margin-top: 3rem;
-  color: rgb(216, 235, 47);
+  color: #183c7abf;
   font-size: 1.5rem;
+  text-align: center;
 }
 
 header h1 {
@@ -48,7 +49,7 @@ main section.app ul {
 }
 
 main section.app ul li {
-  box-shadow: #2196f3 0px 0px 5px 1.5px;
+  box-shadow: #5f88b0 0px 0px 5px 2.5px;
   border: transparent;
   border-radius: 0.25rem;
   background-color: azure;
