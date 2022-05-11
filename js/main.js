@@ -18,7 +18,7 @@ const timeDictionary = {
 const getWeatherIconUrl = (weather) => {
   let iconUrl = "";
 
-  switch (weather) {
+  switch (weather[0].main) {
     case "Thunderstorm":
       iconUrl = "icons/thunder.svg";
       break;
